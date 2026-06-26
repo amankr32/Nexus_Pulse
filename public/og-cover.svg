@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a0d0c"/>
+  <circle cx="600" cy="180" r="280" fill="#8fb39c" opacity="0.08"/>
+  <g transform="translate(480, 220)">
+    <path d="M30 110 V52 L75 25 L120 52 V110" stroke="#8fb39c" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M52 90 V64 L75 50 L98 64 V90" fill="#8fb39c" opacity="0.25"/>
+    <circle cx="75" cy="72" r="9" fill="#8fb39c"/>
+  </g>
+  <text x="600" y="430" font-family="Arial, sans-serif" font-size="56" font-weight="600" fill="#f4f4f0" text-anchor="middle">Nexus Pulse</text>
+  <text x="600" y="475" font-family="Arial, sans-serif" font-size="24" fill="#9aa39c" text-anchor="middle">AI-native data automation platform</text>
+</svg>

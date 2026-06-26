@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DESIGN TOKENS
+   Derived palette: muted sage-on-near-black, evolved from a warm cream/sage
+   light-mode source system into a premium dark register for a data
+   automation product. Geist for display/UI, Inter for body, Geist Mono
+   reserved for anything literally computed (prices, stats, currency codes)
+   so the typography itself signals "this number is calculated, not copy".
+   ========================================================================== */
+
+:root {
+  --bg: #0a0d0c;
+  --surface: #111513;
+  --surface-2: #161b18;
+  --border: rgba(244, 244, 240, 0.08);
+  --border-strong: rgba(244, 244, 240, 0.14);
+
+  --ink: #f4f4f0;
+  --ink-muted: #9aa39c;
+  --ink-faint: #5d655f;
+
+  --accent: #8fb39c;
+  --accent-strong: #b6cfc0;
+  --accent-dim: #5b7c6a;
+  --accent-soft: rgba(143, 179, 156, 0.1);
+
+  --success: #8fb39c;
+  --warning: #d4a86a;
+  --danger: #d4847c;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 0 1px rgba(143, 179, 156, 0.16), 0 8px 24px rgba(143, 179, 156, 0.08);
+
+  /* Motion constraints — exact spec values, named so intent reads at the call site */
+  --dur-micro: 175ms;
+  --ease-micro: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-layout: 350ms;
+  --ease-layout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --radius-card: 18px;
+  --radius-pill: 999px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-inter), -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-geist), var(--font-inter), sans-serif;
+  --font-mono: var(--font-geist-mono), "SF Mono", monospace;
+
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
+}
+
+* {
+  border-color: var(--border);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 244, 240, 0.1);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 244, 240, 0.18);
+}
+
+/* Visible keyboard focus everywhere — never suppressed */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+.shadow-hover {
+  box-shadow: var(--shadow-hover);
+}
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* ==========================================================================
+   SIGNATURE ELEMENT — the "pulse seam"
+   A thin horizontal line with a traveling dot, used at section boundaries
+   to represent data flowing through a pipeline. One motif, used sparingly.
+   ========================================================================== */
+
+.pulse-seam {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-strong) 20%,
+    var(--border-strong) 80%,
+    transparent
+  );
+  overflow: visible;
+}
+
+.pulse-seam::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px 2px var(--accent-soft);
+  transform: translateY(-50%);
+  animation: pulse-travel 4.5s linear infinite;
+}
+
+@keyframes pulse-travel {
+  0% {
+    left: -4px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   ENTRY ORCHESTRATION
+   Page loader + staggered reveal. Total timeline kept under 500ms per spec.
+   ========================================================================== */
+
+@keyframes loader-fade {
+  0% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.page-loader {
+  animation: loader-fade 450ms var(--ease-layout) forwards;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-up {
+  animation: reveal-up var(--dur-layout) var(--ease-layout) both;
+}
+
+/* ==========================================================================
+   ACCORDION (mobile) — pure CSS grid-rows trick, no JS height measuring
+   ========================================================================== */
+
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-layout) var(--ease-layout);
+}
+
+.accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.accordion-panel > div {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   LOGO TICKER
+   ========================================================================== */
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
