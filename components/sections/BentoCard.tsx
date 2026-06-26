@@ -3,10 +3,13 @@
 import type { FeatureNode } from "@/domain/features/matrix";
 import { cn } from "@/lib/utils";
 
+// All cards render at the same size now, regardless of the `span` value
+// in the feature data — kept as a no-op map so FeatureNode["span"] stays
+// valid without forcing a data-shape change in domain/features/matrix.ts.
 const SPAN_CLASSES: Record<FeatureNode["span"], string> = {
-  small: "md:col-span-2 md:row-span-1",
-  wide: "md:col-span-4 md:row-span-1",
-  tall: "md:col-span-2 md:row-span-2",
+  small: "",
+  wide: "",
+  tall: "",
 };
 
 interface BentoCardProps {
@@ -29,7 +32,7 @@ export function BentoCard({ feature, index, onHoverChange }: BentoCardProps) {
       onFocus={() => onHoverChange(index)}
       onMouseLeave={() => onHoverChange(null)}
       className={cn(
-        "group relative flex flex-col justify-between overflow-hidden rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 transition-[transform,border-color,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-micro)] hover:-translate-y-1 hover:border-(--color-accent-dim) hover:shadow-hover focus-visible:-translate-y-1",
+        "group relative flex h-full flex-col justify-between overflow-hidden rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 transition-[transform,border-color,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-micro)] hover:-translate-y-1 hover:border-(--color-accent-dim) hover:shadow-hover focus-visible:-translate-y-1",
         SPAN_CLASSES[feature.span]
       )}
     >

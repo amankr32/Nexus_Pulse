@@ -38,14 +38,14 @@ export function FeaturesSection() {
           </p>
         </div>
 
-        {/* Desktop: bento grid */}
+        {/* Desktop: equal-size grid (every card is the same width/height) */}
         <div
-          className="mt-12 hidden grid-cols-6 gap-5 md:grid"
+          className="mt-12 hidden grid-cols-2 gap-5 md:grid lg:grid-cols-5"
           role="list"
           aria-label="Platform capabilities"
         >
           {FEATURE_NODES.map((feature, index) => (
-            <div key={feature.id} role="listitem">
+            <div key={feature.id} role="listitem" className="h-full">
               <BentoCard
                 feature={feature}
                 index={index}
